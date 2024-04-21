@@ -1,32 +1,34 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
-###############################################################################
-#
-# Copyright (C) 2015-2023 Daniel Rodriguez
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# 编码:utf-8;py-indent-offset: 4 - *
+# ###############################################################################
+# #
+# 版权所有(C) Daniel Rodriguez 2015-2023
+# #
+# 这个程序是免费的软件:你可以重新分配它或修改它
+# 这是按照《角马将军公共许可证》的规定
+# 自由软件基金会，两种版本的许可证
+# (在你选择的时候)任何后期版本。
+# #
+# /这个项目是在希望有用的情况下分发的，
+# 但是没有任何WARRANTY;甚至没有隐含的警告
+# 参与目的的商品或健身。看清
+# GNU将军对细节的许可证。
+# #
+# 你应该收到一份《角马将军执照》的复印件
+# 按照这个计划。如果你不知道，看看<http://www.gnu.org/licenses/>。
+# #
 ###############################################################################
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
 import time
+
 try:
+    # 系统的当前时间和用户CPU时间的浮动值(以秒为单位)
     time_clock = time.process_time
 except:
+    # 统计cpu时间的工具，这在统计某一程序或函数的执行速度最为合适。两次调用time.clock()函数的插值即为程序运行的cpu时间。
     time_clock = time.clock
-
 
 import testcommon
 
@@ -34,6 +36,7 @@ import backtrader as bt
 import backtrader.indicators as btind
 
 
+# 测试策略
 class TestStrategy(bt.Strategy):
     params = (
         ('period', 15),
