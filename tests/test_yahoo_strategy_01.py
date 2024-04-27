@@ -8,6 +8,8 @@ class TestStrategy(bt.Strategy):
     params = (
         # 持仓够5个单位就卖出
         ('exitbars', 5),
+        # 均线参数设置15天，15日均线
+        ('maperiod', 15),
     )
     def log(self, txt, dt=None):
         # 记录策略执行的日志
@@ -22,8 +24,18 @@ class TestStrategy(bt.Strategy):
         # 买入价格和手续费
         self.buyprice = None
         self.buycomm = None
+        # 加入均线指标
+        self.sma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params.maperiod)
+        # 绘制图形时候用到的指标
+        bt.indicators.ExponentialMovingAverage(self.datas[0], period=25)
+        bt.indicators.WeightedMovingAverage(self.datas[0], period=25, subplot=True)
+        bt.indicators.StochasticSlow(self.datas[0])
+        bt.indicators.MACDHisto(self.datas[0])
+        rsi = bt.indicators.RSI(self.datas[0])
+        bt.indicators.SmoothedMovingAverage(rsi, period=10)
+        bt.indicators.ATR(self.datas[0], plot=False)
 
-    # 执行卖出
+        # 执行卖出
     def notify_order(self, order):
         if order.status in [order.Submitted,order.Accepted]:
             # broke 提交了买/卖订单，则什么都不做
@@ -110,3 +122,5 @@ print('组合期初资金 %s' % cerebro.broker.getvalue())
 cerebro.run()
 # 引擎运行后打印期末资金
 print('组合期末资金 %s' % cerebro.broker.getvalue())
+# 绘制图表
+cerebro.plot()
